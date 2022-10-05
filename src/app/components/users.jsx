@@ -30,14 +30,7 @@ const Users = ({ users: allUsers, ...rest }) => {
     };
 
     const handleSort = (item) => {
-        if (sortBy.iter === item) {
-            setSortBy((prevState) => ({
-                ...prevState,
-                order: prevState.order === 'asc' ? 'desc' : 'asc'
-            }));
-        } else {
-            setSortBy({ iter: item, order: 'asc' });
-        }
+        setSortBy(item);
     };
 
     const filteredUsers = selectedProf
@@ -79,6 +72,7 @@ const Users = ({ users: allUsers, ...rest }) => {
                     <UsersTable
                         users={usersCrop}
                         onSort={handleSort}
+                        currentSort={sortBy}
                         {...rest}
                     />
                 )}
