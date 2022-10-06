@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 
 const TableHeader = ({ onSort, selectedSort, columns }) => {
     const hendleSort = (item) => {
-        if (selectedSort.iter === item) {
+        if (selectedSort.path === item) {
             onSort({
                 ...selectedSort,
                 order: selectedSort.order === 'asc' ? 'desc' : 'asc'
             });
         } else {
-            onSort({ iter: item, order: 'asc' });
+            onSort({ path: item, order: 'asc' });
         }
     };
 
@@ -20,31 +20,16 @@ const TableHeader = ({ onSort, selectedSort, columns }) => {
                     <th
                         key={column}
                         onClick={
-                            columns[column].iter
-                                ? () => hendleSort(columns[column].iter)
+                            columns[column].path
+                                ? () => hendleSort(columns[column].path)
                                 : undefined
                         }
-                        {...{ role: columns[column].iter && 'button' }}
+                        {...{ role: columns[column].path && 'button' }}
                         scope="col"
                     >
                         {columns[column].name}
                     </th>
                 ))}
-
-                {/* <th scope="col">Качества</th>
-                <th onClick={() => hendleSort('profession.name')} scope="col">
-                    Профессия
-                </th>
-                <th onClick={() => hendleSort('completedMeetings')} scope="col">
-                    Встретился, раз
-                </th>
-                <th onClick={() => hendleSort('rate')} scope="col">
-                    Оценка
-                </th>
-                <th onClick={() => hendleSort('bookmark')} scope="col">
-                    Избранное
-                </th>
-                <th /> */}
             </tr>
         </thead>
     );
