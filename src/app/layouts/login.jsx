@@ -15,7 +15,8 @@ const Login = () => {
         email: {
             isRequired: {
                 massage: 'Электронная почта обязательна для заполнения'
-            }
+            },
+            isEmail: { massage: 'Email введен некорректно' }
         },
         password: {
             isRequired: {
