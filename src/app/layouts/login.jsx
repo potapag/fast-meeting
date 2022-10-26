@@ -21,6 +21,9 @@ const Login = () => {
         password: {
             isRequired: {
                 massage: 'Пароль обязателен для заполнения'
+            },
+            isCapitalSimbol: {
+                massage: 'Пароль должен содержать хотябы одну заглавнуь букву'
             }
         }
     };

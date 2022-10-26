@@ -10,6 +10,12 @@ export function validator(data, config) {
                 if (!emailRegExp.test(data)) return config.massage;
                 break;
             }
+            case 'isCapitalSimbol': {
+                const capitalRegExp = /[A-Z]+/g;
+                if (!capitalRegExp.test(data)) return config.massage;
+                break;
+            }
+
             default:
                 break;
         }
