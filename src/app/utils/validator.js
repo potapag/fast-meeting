@@ -1,24 +1,25 @@
 export function validator(data, config) {
     const errors = {};
     function validate(validateMethod, data, config) {
+        let statusValidate;
         switch (validateMethod) {
             case 'isRequired':
-                if (data.trim() === '') return config.massage;
+                statusValidate = data.trim() === '';
                 break;
             case 'isEmail': {
                 const emailRegExp = /^\S+@\S+\.\S+$/g;
-                if (!emailRegExp.test(data)) return config.massage;
+                statusValidate = !emailRegExp.test(data);
                 break;
             }
             case 'isCapitalSimbol': {
                 const capitalRegExp = /[A-Z]+/g;
-                if (!capitalRegExp.test(data)) return config.massage;
+                statusValidate = !capitalRegExp.test(data);
                 break;
             }
-
             default:
                 break;
         }
+        if (statusValidate) return config.message;
     }
     for (const fieldName in data) {
         for (const validateMethod in config[fieldName]) {

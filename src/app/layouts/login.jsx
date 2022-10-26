@@ -14,16 +14,16 @@ const Login = () => {
     const validatorConfig = {
         email: {
             isRequired: {
-                massage: 'Электронная почта обязательна для заполнения'
+                message: 'Электронная почта обязательна для заполнения'
             },
-            isEmail: { massage: 'Email введен некорректно' }
+            isEmail: { message: 'Email введен некорректно' }
         },
         password: {
             isRequired: {
-                massage: 'Пароль обязателен для заполнения'
+                message: 'Пароль обязателен для заполнения'
             },
             isCapitalSimbol: {
-                massage: 'Пароль должен содержать хотябы одну заглавнуь букву'
+                message: 'Пароль должен содержать хотябы одну заглавнуь букву'
             }
         }
     };
