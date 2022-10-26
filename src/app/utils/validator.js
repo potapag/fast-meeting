@@ -16,6 +16,15 @@ export function validator(data, config) {
                 statusValidate = !capitalRegExp.test(data);
                 break;
             }
+            case 'isContainDigit': {
+                const digitRegExp = /\d+/g;
+                statusValidate = !digitRegExp.test(data);
+                break;
+            }
+            case 'min': {
+                statusValidate = data.length < config.value;
+                break;
+            }
             default:
                 break;
         }
