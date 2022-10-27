@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { validator } from '../../utils/validator';
 import TextField from '../common/form/textField';
 
-const LoginForm = () => {
+const RegistrForm = () => {
     const [data, setData] = useState({ email: '', password: '' });
     const [errors, setErrors] = useState({});
     const handelChange = ({ target }) => {
@@ -79,4 +79,4 @@ const LoginForm = () => {
     );
 };
 
-export default LoginForm;
+export default RegistrForm;
