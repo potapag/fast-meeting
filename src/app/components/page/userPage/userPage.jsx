@@ -9,9 +9,9 @@ const UserPage = ({ userId }) => {
     const [user, setUsers] = useState();
     useEffect(() => {
         api.users.getById(userId).then((data) => setUsers(data));
-    });
+    }, []);
     const handleClick = () => {
-        history.push('/users');
+        history.push(history.location.pathname + '/edit');
     };
 
     if (user) {
@@ -22,7 +22,7 @@ const UserPage = ({ userId }) => {
                 <Qualities qualities={user.qualities} />
                 <p>Завершенных встреч: {user.completedMeetings}</p>
                 <h2>Оценка: {user.rate} </h2>
-                <button onClick={handleClick}>Все пользователи</button>
+                <button onClick={handleClick}>Изменить</button>
             </div>
         );
     } else {
