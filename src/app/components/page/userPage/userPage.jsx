@@ -36,7 +36,7 @@ const UserPage = ({ userId }) => {
             //     <div>
             //         <h1>{user.name}</h1>
             //         <h2>Профессия: {user.profession.name}</h2>
-            //         <Qualities qualities={user.qualities} />
+                    // <Qualities qualities={user.qualities} />
             //         <p>Завершенных встреч: {user.completedMeetings}</p>
             //         <h2>Оценка: {user.rate} </h2>
             //         <button onClick={handleClick}>Изменить</button>

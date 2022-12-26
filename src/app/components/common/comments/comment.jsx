@@ -20,7 +20,7 @@ const Comment = ({
     }, []);
 
     return (
-        <div className="bg-light card-body  mb-3">
+        <div className="bg-light card-body mb-3">
             <div className="row">
                 {isLoading ? (
                     'Loading ...'
