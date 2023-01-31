@@ -1,8 +1,24 @@
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import config from '../config.json';
+import configFile from '../config.json';
 
-axios.defaults.baseURL = config.apiEndpoint;
+axios.defaults.baseURL = configFile.apiEndpoint;
+
+axios.interceptors.request.use(
+    function (config) {
+        if (configFile.isFireBase) {
+            const containSlash = /\/$/gi.test(config.url);
+            config.url =
+                (containSlash ? config.url.slice(0, -1) : config.url) + '.json';
+        }
+        // config.url = config.url.slice(0, -1) + '.json';
+        // console.log(config.url);
+        return config;
+    },
+    function (error) {
+        return Promise.reject(error);
+    }
+);
 
 axios.interceptors.response.use(
     (res) => res,
