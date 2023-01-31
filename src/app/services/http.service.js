@@ -20,8 +20,21 @@ axios.interceptors.request.use(
     }
 );
 
+function transormData(data) {
+    return data
+        ? Object.keys(data).map((key) => ({
+            ...data[key]
+        }))
+        : [];
+}
 axios.interceptors.response.use(
-    (res) => res,
+    (res) => {
+        if (configFile.isFireBase) {
+            res.data = { content: transormData(res.data) };
+            // console.log(res.data);
+        }
+        return res;
+    },
     function (error) {
         const expectedErrors =
             error.response &&
