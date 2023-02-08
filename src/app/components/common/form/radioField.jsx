@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-const RedioField = ({ options, name, onChange, value, label }) => {
-    const handelChange = ({ target }) => {
+
+const RadioField = ({ options, name, onChange, value, label }) => {
+    const handleChange = ({ target }) => {
         onChange({ name: target.name, value: target.value });
     };
-
     return (
         <div className="mb-4">
             <label className="form-label">{label}</label>
@@ -21,7 +21,7 @@ const RedioField = ({ options, name, onChange, value, label }) => {
                             id={option.name + '_' + option.value}
                             checked={option.value === value}
                             value={option.value}
-                            onChange={handelChange}
+                            onChange={handleChange}
                         />
                         <label
                             className="form-check-label"
@@ -35,11 +35,13 @@ const RedioField = ({ options, name, onChange, value, label }) => {
         </div>
     );
 };
-RedioField.propTypes = {
+
+RadioField.propTypes = {
     options: PropTypes.array,
     name: PropTypes.string,
     onChange: PropTypes.func,
     value: PropTypes.string,
     label: PropTypes.string
 };
-export default RedioField;
+
+export default RadioField;

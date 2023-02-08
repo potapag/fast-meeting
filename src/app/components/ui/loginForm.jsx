@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { validator } from '../../utils/validator';
 import TextField from '../common/form/textField';
-import CheckBoxFild from '../common/form/checkBoxFild';
-// import * as yup from 'yup';
+import CheckBoxField from '../common/form/checkBoxField';
 
 const LoginForm = () => {
     const [data, setData] = useState({
@@ -11,52 +10,30 @@ const LoginForm = () => {
         stayOn: false
     });
     const [errors, setErrors] = useState({});
-    const handelChange = (target) => {
+    const handleChange = (target) => {
         setData((prevState) => ({
             ...prevState,
             [target.name]: target.value
         }));
     };
-
-    // const validateScheme = yup.object().shape({
-    //     password: yup
-    //         .string()
-    //         .required('Пароль обязателен для заполнения')
-    //         .matches(
-    //             /(?=.*[A-Z])/,
-    //             'Пароль должен содержать хотябы одну заглавнуь букву'
-    //         )
-    //         .matches(/(?=.*[0-9])/, 'Пароль должен содержать хотябы одну цифру')
-    //         .matches(
-    //             /(?=.*[!?_@#$%^&*])/,
-    //             'Пароль должен содержать хотябы одн из специальных символов !?_@#$%^&*'
-    //         )
-    //         .matches(
-    //             /(?=.{8,})/,
-    //             'Пароль должен состоять минимум из 8 символов'
-    //         ),
-    //     email: yup
-    //         .string()
-    //         .required('Электронная почта обязательна для заполнения')
-    //         .email('Email введен некорректно')
-    // });
-
     const validatorConfig = {
         email: {
             isRequired: {
                 message: 'Электронная почта обязательна для заполнения'
             },
-            isEmail: { message: 'Email введен некорректно' }
+            isEmail: {
+                message: 'Email введен некорректно'
+            }
         },
         password: {
             isRequired: {
                 message: 'Пароль обязателен для заполнения'
             },
-            isCapitalSimbol: {
-                message: 'Пароль должен содержать хотябы одну заглавнуь букву'
+            isCapitalSymbol: {
+                message: 'Пароль должен содержать хотя бы одну заглавную букву'
             },
             isContainDigit: {
-                message: 'Пароль должен содержать хотябы одну цифру'
+                message: 'Пароль должен содержать хотя бы одно число'
             },
             min: {
                 message: 'Пароль должен состоять минимум из 8 символов',
@@ -69,10 +46,6 @@ const LoginForm = () => {
     }, [data]);
     const validate = () => {
         const errors = validator(data, validatorConfig);
-        // validateScheme
-        //     .validate(data)
-        //     .then(() => setErrors({}))
-        //     .catch((err) => setErrors({ [err.path]: err.massage }));
         setErrors(errors);
         return Object.keys(errors).length === 0;
     };
@@ -84,14 +57,13 @@ const LoginForm = () => {
         if (!isValid) return;
         console.log(data);
     };
-
     return (
         <form onSubmit={handleSubmit}>
             <TextField
-                label="Email"
+                label="Электронная почта"
                 name="email"
                 value={data.email}
-                onChange={handelChange}
+                onChange={handleChange}
                 error={errors.email}
             />
             <TextField
@@ -99,22 +71,20 @@ const LoginForm = () => {
                 type="password"
                 name="password"
                 value={data.password}
-                onChange={handelChange}
+                onChange={handleChange}
                 error={errors.password}
             />
-            <CheckBoxFild
-                name="stayOn"
+            <CheckBoxField
                 value={data.stayOn}
-                onChange={handelChange}
+                onChange={handleChange}
+                name="stayOn"
             >
-                {' '}
-                Оставатся в системе{' '}
-            </CheckBoxFild>
-
+                Оставаться в системе
+            </CheckBoxField>
             <button
+                className="btn btn-primary w-100 mx-auto"
                 type="submit"
                 disabled={!isValid}
-                className="btn btn-primary"
             >
                 Submit
             </button>

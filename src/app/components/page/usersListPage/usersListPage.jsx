@@ -5,38 +5,37 @@ import Pagination from '../../common/pagination';
 import api from '../../../api';
 import GroupList from '../../common/groupList';
 import SearchStatus from '../../ui/searchStatus';
-import UsersTable from '../../ui/usersTable';
+import UserTable from '../../ui/usersTable';
 import _ from 'lodash';
-
+import { useUser } from '../../../hooks/useUsers';
 const UsersListPage = () => {
+    const { users } = useUser();
     const [currentPage, setCurrentPage] = useState(1);
     const [professions, setProfession] = useState();
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedProf, setSelectedProf] = useState();
-    const [sortBy, setSortBy] = useState({ iter: 'name', order: 'asc' });
+    const [sortBy, setSortBy] = useState({ path: 'name', order: 'asc' });
     const pageSize = 8;
 
-    const [users, setUsers] = useState();
-    useEffect(() => {
-        api.users.fetchAll().then((data) => setUsers(data));
-    }, []);
     const handleDelete = (userId) => {
-        setUsers(users.filter((user) => user._id !== userId));
+        // setUsers(users.filter((user) => user._id !== userId));
+        console.log(userId);
     };
     const handleToggleBookMark = (id) => {
-        setUsers(
-            users.map((user) => {
-                if (user._id === id) {
-                    return { ...user, bookmark: !user.bookmark };
-                }
-                return user;
-            })
-        );
+        const newArray = users.map((user) => {
+            if (user._id === id) {
+                return { ...user, bookmark: !user.bookmark };
+            }
+            return user;
+        });
+        // setUsers(newArray);
+        console.log(newArray);
     };
 
     useEffect(() => {
         api.professions.fetchAll().then((data) => setProfession(data));
     }, []);
+
     useEffect(() => {
         setCurrentPage(1);
     }, [selectedProf, searchQuery]);
@@ -45,7 +44,7 @@ const UsersListPage = () => {
         if (searchQuery !== '') setSearchQuery('');
         setSelectedProf(item);
     };
-    const hendleSearchQuery = ({ target }) => {
+    const handleSearchQuery = ({ target }) => {
         setSelectedProf(undefined);
         setSearchQuery(target.value);
     };
@@ -53,7 +52,6 @@ const UsersListPage = () => {
     const handlePageChange = (pageIndex) => {
         setCurrentPage(pageIndex);
     };
-
     const handleSort = (item) => {
         setSortBy(item);
     };
@@ -61,17 +59,17 @@ const UsersListPage = () => {
     if (users) {
         const filteredUsers = searchQuery
             ? users.filter(
-                  (user) =>
-                      user.name
-                          .toLowerCase()
-                          .indexOf(searchQuery.toLowerCase()) !== -1
-              )
+                (user) =>
+                    user.name
+                        .toLowerCase()
+                        .indexOf(searchQuery.toLowerCase()) !== -1
+            )
             : selectedProf
             ? users.filter(
-                  (user) =>
-                      JSON.stringify(user.profession) ===
-                      JSON.stringify(selectedProf)
-              )
+                (user) =>
+                    JSON.stringify(user.profession) ===
+                    JSON.stringify(selectedProf)
+            )
             : users;
 
         const count = filteredUsers.length;
@@ -108,12 +106,12 @@ const UsersListPage = () => {
                     <input
                         type="text"
                         name="searchQuery"
-                        placeholder="Поиск ..."
-                        onChange={hendleSearchQuery}
+                        placeholder="Search..."
+                        onChange={handleSearchQuery}
                         value={searchQuery}
                     />
                     {count > 0 && (
-                        <UsersTable
+                        <UserTable
                             users={usersCrop}
                             onSort={handleSort}
                             selectedSort={sortBy}
@@ -133,7 +131,7 @@ const UsersListPage = () => {
             </div>
         );
     }
-    return 'loasing...';
+    return 'loading...';
 };
 UsersListPage.propTypes = {
     users: PropTypes.array

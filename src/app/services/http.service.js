@@ -11,16 +11,13 @@ axios.interceptors.request.use(
             config.url =
                 (containSlash ? config.url.slice(0, -1) : config.url) + '.json';
         }
-        // config.url = config.url.slice(0, -1) + '.json';
-        // console.log(config.url);
         return config;
     },
     function (error) {
         return Promise.reject(error);
     }
 );
-
-function transormData(data) {
+function transformData(data) {
     return data
         ? Object.keys(data).map((key) => ({
             ...data[key]
@@ -30,8 +27,7 @@ function transormData(data) {
 axios.interceptors.response.use(
     (res) => {
         if (configFile.isFireBase) {
-            res.data = { content: transormData(res.data) };
-            // console.log(res.data);
+            res.data = { content: transformData(res.data) };
         }
         return res;
     },

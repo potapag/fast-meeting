@@ -4,7 +4,7 @@ import { validator } from '../../../utils/validator';
 import api from '../../../api';
 import TextField from '../../common/form/textField';
 import SelectField from '../../common/form/selectField';
-import RedioField from '../../common/form/redioField';
+import RadioField from '../../common/form/radioField';
 import MultiSelectField from '../../common/form/multiSelectField';
 import BackHistoryButton from '../../common/backButton';
 
@@ -20,7 +20,7 @@ const EditUserPage = () => {
         qualities: []
     });
     const [professions, setProfession] = useState([]);
-    const [qualities, setQualities] = useState({});
+    const [qualities, setQualities] = useState([]);
     const [errors, setErrors] = useState({});
     const getProfessionById = (id) => {
         for (const prof of professions) {
@@ -155,7 +155,7 @@ const EditUserPage = () => {
                                 value={data.profession}
                                 error={errors.profession}
                             />
-                            <RedioField
+                            <RadioField
                                 options={[
                                     { name: 'Male', value: 'male' },
                                     { name: 'Female', value: 'female' },
