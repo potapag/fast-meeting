@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { validator } from '../../utils/validator';
 import TextField from '../common/form/textField';
-import api from '../../api';
+// import api from '../../api';
 import SelectField from '../common/form/selectField';
 import RadioField from '../common/form/radioField';
 import MultiSelectField from '../common/form/multiSelectField';
 import CheckBoxField from '../common/form/checkBoxField';
+import { useQualities } from '../../hooks/useQualities';
+import { useProfessions } from '../../hooks/useProfession';
 
 const RegisterForm = () => {
     const [data, setData] = useState({
@@ -16,8 +18,22 @@ const RegisterForm = () => {
         qualities: [],
         licence: false
     });
-    const [qualities, setQualities] = useState([]);
-    const [professions, setProfession] = useState([]);
+    // const [qualities, setQualities] = useState([]);
+    const { qualities } = useQualities();
+    const qualitiesList = qualities.map((q) => ({
+        label: q.name,
+        vallue: q._id
+    }));
+    // const [professions, setProfession] = useState([]);
+    const { professions } = useProfessions();
+    const professionsList = professions.map((p) => ({
+        label: p.name,
+        vallue: p._id
+    }));
+
+    console.log(qualities);
+    console.log(professions);
+
     const [errors, setErrors] = useState({});
 
     const getProfessionById = (id) => {
@@ -43,23 +59,23 @@ const RegisterForm = () => {
         return qualitiesArray;
     };
 
-    useEffect(() => {
-        api.professions.fetchAll().then((data) => {
-            const professionsList = Object.keys(data).map((professionName) => ({
-                label: data[professionName].name,
-                value: data[professionName]._id
-            }));
-            setProfession(professionsList);
-        });
-        api.qualities.fetchAll().then((data) => {
-            const qualitiesList = Object.keys(data).map((optionName) => ({
-                value: data[optionName]._id,
-                label: data[optionName].name,
-                color: data[optionName].color
-            }));
-            setQualities(qualitiesList);
-        });
-    }, []);
+    // useEffect(() => {
+    //     api.professions.fetchAll().then((data) => {
+    //         const professionsList = Object.keys(data).map((professionName) => ({
+    //             label: data[professionName].name,
+    //             value: data[professionName]._id
+    //         }));
+    //         setProfession(professionsList);
+    //     });
+    //     api.qualities.fetchAll().then((data) => {
+    //         const qualitiesList = Object.keys(data).map((optionName) => ({
+    //             value: data[optionName]._id,
+    //             label: data[optionName].name,
+    //             color: data[optionName].color
+    //         }));
+    //         setQualities(qualitiesList);
+    //     });
+    // }, []);
     const handleChange = (target) => {
         setData((prevState) => ({
             ...prevState,
@@ -143,7 +159,7 @@ const RegisterForm = () => {
             <SelectField
                 label="Выбери свою профессию"
                 defaultOption="Choose..."
-                options={professions}
+                options={professionsList}
                 name="profession"
                 onChange={handleChange}
                 value={data.profession}
@@ -151,9 +167,9 @@ const RegisterForm = () => {
             />
             <RadioField
                 options={[
-                    { name: 'Male', value: 'male' },
-                    { name: 'Female', value: 'female' },
-                    { name: 'Other', value: 'other' }
+                    { name: 'Мужчина', value: 'male' },
+                    { name: 'Женщина', value: 'female' },
+                    { name: 'Другое', value: 'other' }
                 ]}
                 value={data.sex}
                 name="sex"
@@ -161,7 +177,7 @@ const RegisterForm = () => {
                 label="Выберите ваш пол"
             />
             <MultiSelectField
-                options={qualities}
+                options={qualitiesList}
                 onChange={handleChange}
                 defaultValue={data.qualities}
                 name="qualities"
